@@ -15,10 +15,23 @@ Includes the CLI PHP and PHP-FPM. Does not include composer.
 
 
     cd cli
-    docker build -t antriver/php-amazonlinux:8.1.1-cli .
-    docker push antriver/php-amazonlinux:8.1.1-cli
+    # Build the image
+    docker build -t antriver/php-amazonlinux:latest-cli .
+    # Confirm the versions installed
+    docker run -it antriver/php-amazonlinux:latest-cli bash -c "php -v && git --version && composer --version"
+    # Tag the image with the relevant version
+    docker image tag antriver/php-amazonlinux:latest-cli antriver/php-amazonlinux:8.1.3-cli
+    # Push the image to Docker Hub
+    docker push antriver/php-amazonlinux:8.1.3-cli
 
 
     cd fpm
-    docker build -t antriver/php-amazonlinux:8.1.1-fpm .
-    docker push antriver/php-amazonlinux:8.1.1-fpm
+    # Build the image
+    docker build -t antriver/php-amazonlinux:latest-fpm .
+    # Confirm the versions installed
+    # The entrypoint is the php-fpm binary, so we can just use "-v" as the cmd to check the version.
+    docker run -it antriver/php-amazonlinux:latest-fpm "-v"
+    # Tag the image with the relevant version
+    docker image tag antriver/php-amazonlinux:latest-fpm antriver/php-amazonlinux:8.1.3-fpm
+    # Push the image to Docker Hub
+    docker push antriver/php-amazonlinux:8.1.3-fpm
